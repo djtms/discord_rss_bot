@@ -1,0 +1,44 @@
+# including some GitLab "templates" to enable their automatic checking of stuff
+include:
+  # Static Application Security Testing
+  - template: SAST.gitlab-ci.yml
+
+  # Check dependencies for potential problems
+  - template: Dependency-Scanning.gitlab-ci.yml
+
+  # License Scanning; Overkill, but shouldn't hurt
+  - template: License-Scanning.gitlab-ci.yml
+
+image: "python:3.6"
+
+before_script:
+  - python --version
+  - pip install -r requirements.txt
+
+stages:
+  - build
+  - test
+  - deploy
+  - dast
+
+flake8:
+  stage: test
+  allow_failure: true
+  script:
+  - flake8  --ignore=F841 --show-source --max-line-length=120 *.py
+  
+#mypy:
+#  stage: test
+#  allow_failure: true
+#  script:
+#  - pwd
+#  - ls -l
+#  - python -m mypy feed2discord.py
+#  - python -m mypy show_all_entries.py
+#  - python -m mypy show_sample_entry.py
+  
+pylint:
+  stage: test
+  allow_failure: true
+  script:
+  - pylint -d C0301 *.py

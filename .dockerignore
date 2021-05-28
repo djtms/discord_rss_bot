@@ -68,7 +68,16 @@ DEADJOE
 *.swp
 *.swo
 
-# Feedbot's own stuff:
+# sqlite DB file
 *.db
+
+# THIS FILE MUST NEVER BE COMPILED INTO A DOCKER IMAGE
 feed2discord.local.ini
-feed2discord.auth.ini
+
+# git
+.git
+.gitignore
+
+# Docker
+.dockerignore
+Dockerfile
